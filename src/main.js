@@ -1,23 +1,30 @@
 // Import stylesheets
-import './style.css';
+import "./style.css";
 
-// Write TypeScript code!
-const appDiv = document.getElementById('controls');
-const startStopButton = document.getElementById('startStop');
-const useVideo = location.search.includes('video');
-const countdownElement = document.getElementById('countdown');
+try {
+  navigator.serviceWorker.register("sw.js");
+} catch {
+  console.warn("Service worker registration failed. This site will not work offline.");
+}
 
-document.querySelector('#toggleVideo').onclick = () => {
+const appDiv = document.getElementById("controls");
+const startStopButton = document.getElementById("startStop");
+const useVideo = location.search.includes("video");
+const countdownElement = document.getElementById("countdown");
+
+document.querySelector("#toggleVideo").onclick = () => {
   if (useVideo) {
-    location.search = '';
-  } else location.search = '?video';
+    location.search = "";
+  } else location.search = "?video";
 };
-if (useVideo) document.querySelector('#buttons').classList.add('vertical');
+
+document.querySelector("#toggleVideo").textContent = useVideo ? "Audio only" : "Enable video";
+if (useVideo) document.querySelector("#buttons").classList.add("vertical");
 
 let media;
 let recorder;
 
-const mediaPlayer = document.createElement(useVideo ? 'video' : 'audio');
+const mediaPlayer = document.createElement(useVideo ? "video" : "audio");
 mediaPlayer.controls = true;
 
 let url;
@@ -27,15 +34,15 @@ function wait1sec() {
 }
 
 async function countdown() {
-  countdownElement.classList.add('visible');
-  countdownElement.textContent = '3';
+  countdownElement.classList.add("visible");
+  countdownElement.textContent = "3";
   await wait1sec();
-  countdownElement.textContent = '2';
+  countdownElement.textContent = "2";
   await wait1sec();
-  countdownElement.textContent = '1';
+  countdownElement.textContent = "1";
   await wait1sec();
-  countdownElement.textContent = '';
-  countdownElement.classList.remove('visible');
+  countdownElement.textContent = "";
+  countdownElement.classList.remove("visible");
 }
 
 async function activateMedia() {
@@ -52,7 +59,7 @@ async function activateMedia() {
   }
 
   recorder = new MediaRecorder(media);
-  recorder.addEventListener('dataavailable', (e) => {
+  recorder.addEventListener("dataavailable", (e) => {
     if (url) URL.revokeObjectURL(url);
     url = mediaPlayer.src = URL.createObjectURL(e.data);
     appDiv.appendChild(mediaPlayer);
@@ -63,11 +70,11 @@ async function startRecording() {
   try {
     await activateMedia();
   } catch {
-    alert('Microphone access denied.');
+    alert("Microphone access denied.");
     return;
   }
 
-  startStopButton.textContent = 'Stop';
+  startStopButton.textContent = "Stop";
   startStopButton.onclick = stopRecording;
 
   if (!useVideo) mediaPlayer.pause();
@@ -80,13 +87,13 @@ async function startRecording() {
     await countdown();
   }
 
-  if (recorder.state !== 'recording') recorder.start();
+  if (recorder.state !== "recording") recorder.start();
 }
 
 async function stopRecording() {
   if (recorder) recorder.stop();
   if (media) media.getTracks().forEach((track) => track.stop());
-  startStopButton.textContent = 'Record';
+  startStopButton.textContent = "Record";
   startStopButton.onclick = startRecording;
   mediaPlayer.pause();
   mediaPlayer.srcObject = null;
