@@ -3,6 +3,7 @@ import './style.css';
 
 // Write TypeScript code!
 const appDiv = document.getElementById('controls');
+const startStopButton = document.getElementById('startStop');
 
 let media;
 let recorder;
@@ -32,11 +33,17 @@ async function startRecording() {
     }
   }
   if (recorder.state !== 'recording') recorder.start();
+  startStopButton.textContent = 'Stop';
+  startStopButton.onclick = stopRecording;
 }
 
 async function stopRecording() {
   if (recorder) recorder.stop();
+  startStopButton.textContent = 'Record';
+  startStopButton.onclick = startRecording;
 }
 
 window.startRecording = startRecording;
 window.stopRecording = stopRecording;
+
+stopRecording();
