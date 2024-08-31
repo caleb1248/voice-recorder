@@ -8,8 +8,11 @@ const startStopButton = document.getElementById('startStop');
 let media;
 let recorder;
 
-const audioElement = appDiv.appendChild(document.createElement('audio'));
+const audioElement = document.createElement('audio');
+audioElement.style.display = 'none';
 audioElement.controls = true;
+
+let url;
 
 async function activateMedia() {
   media = await navigator.mediaDevices.getUserMedia({
@@ -19,26 +22,29 @@ async function activateMedia() {
 
   recorder = new MediaRecorder(media);
   recorder.addEventListener('dataavailable', (e) => {
-    audioElement.src = URL.createObjectURL(e.data);
+    if (url) URL.revokeObjectURL(url);
+    url = audioElement.src = URL.createObjectURL(e.data);
+    appDiv.appendChild(audioElement);
   });
 }
 
 async function startRecording() {
-  if (!media) {
-    try {
-      await activateMedia();
-    } catch {
-      alert('Microphone access denied.');
-      return;
-    }
+  try {
+    await activateMedia();
+  } catch {
+    alert('Microphone access denied.');
+    return;
   }
+
   if (recorder.state !== 'recording') recorder.start();
   startStopButton.textContent = 'Stop';
   startStopButton.onclick = stopRecording;
+  audioElement.paused = true;
 }
 
 async function stopRecording() {
   if (recorder) recorder.stop();
+  if (media) media.getTracks().forEach((track) => track.stop());
   startStopButton.textContent = 'Record';
   startStopButton.onclick = startRecording;
 }
