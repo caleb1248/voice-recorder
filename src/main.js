@@ -38,7 +38,7 @@ async function startRecording() {
   if (recorder.state !== 'recording') recorder.start();
   startStopButton.textContent = 'Stop';
   startStopButton.onclick = stopRecording;
-  audioElement.pause() = true;
+  audioElement.pause();
 }
 
 async function stopRecording() {
