@@ -9,7 +9,6 @@ let media;
 let recorder;
 
 const audioElement = document.createElement('audio');
-audioElement.style.display = 'none';
 audioElement.controls = true;
 
 let url;
@@ -39,7 +38,7 @@ async function startRecording() {
   if (recorder.state !== 'recording') recorder.start();
   startStopButton.textContent = 'Stop';
   startStopButton.onclick = stopRecording;
-  audioElement.paused = true;
+  audioElement.pause() = true;
 }
 
 async function stopRecording() {
