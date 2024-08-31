@@ -1,19 +1,11 @@
 // Import stylesheets
 import './style.css';
-(function () {
-  var script = document.createElement('script');
-  script.src = 'https://cdn.jsdelivr.net/npm/eruda';
-  document.body.append(script);
-  script.onload = function () {
-    eruda.init();
-  };
-})();
 
 // Write TypeScript code!
-const appDiv: HTMLElement = document.getElementById('controls');
+const appDiv = document.getElementById('controls');
 
-let media: MediaStream;
-let recorder: MediaRecorder;
+let media;
+let recorder;
 
 const audioElement = appDiv.appendChild(document.createElement('audio'));
 audioElement.controls = true;
@@ -30,7 +22,7 @@ async function activateMedia() {
   });
 }
 
-async function record() {
+async function startRecording() {
   if (!media) {
     try {
       await activateMedia();
@@ -42,9 +34,9 @@ async function record() {
   if (recorder.state !== 'recording') recorder.start();
 }
 
-async function stop() {
+async function stopRecording() {
   if (recorder) recorder.stop();
 }
 
-window.record = record;
-window.stop = stop;
+window.startRecording = startRecording;
+window.stopRecording = stopRecording;

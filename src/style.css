@@ -1,0 +1,43 @@
+html,
+body,
+div#app {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #111;
+}
+
+div#controls {
+  display: grid;
+  grid-template-columns: min-content min-content 1fr;
+  grid-template-rows: min-content;
+  padding: 2rem;
+  border-radius: 9999px;
+  background-color: #222;
+}
+
+button {
+  border-radius: 10px;
+  border: 1px solid white;
+  background-color: inherit;
+  color: white;
+  padding: 1rem;
+  margin-right: 1rem;
+}
+
+button:hover {
+  background-color: #7f7f7f11;
+}
+
+button:active {
+  background-color: #7f7f7f2f;
+}
+
+audio {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+}
