@@ -1,20 +1,53 @@
+* {
+  box-sizing: border-box;
+}
+
 html,
 body,
-div#app {
+#app {
   height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #111;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+#app {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #111;
 }
 
-div#controls {
+#controls {
   display: grid;
-  grid-template-columns: min-content min-content 1fr;
-  grid-template-rows: min-content;
+  grid-template-columns: min-content 1fr;
   padding: 2rem;
-  border-radius: 9999px;
+  border-radius: 1rem;
   background-color: #222;
+  align-items: center;
+}
+
+#buttons {
+  display: flex;
+  width: min-content;
+  gap: 1rem;
+  --height: 100%;
+}
+
+#buttons>* {
+  min-height: 100%;
+  flex-grow: 1;
+  display: block;
+
+}
+
+#buttons.vertical {
+  flex-direction: column;
+}
+
+#buttons.vertical>* {
+  width: 100%;
 }
 
 button {
@@ -23,7 +56,6 @@ button {
   background-color: inherit;
   color: white;
   padding: 1rem;
-  margin-right: 1rem;
 }
 
 button:last-child {
@@ -42,10 +74,31 @@ button:active {
   background-color: #7f7f7f2f;
 }
 
-audio {
+audio,
+video {
   margin: 0;
   padding: 0;
   border: 0;
-  font-size: 100%;
-  font: inherit;
+  border-radius: 10px;
+  margin-left: 1rem;
+}
+
+.modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+
+  background-color: #7f7f7f22;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  font-size: 4rem;
+  backdrop-filter: blur(2px);
+  color: white;
+}
+
+.modal.visible {
+  display: flex;
 }
